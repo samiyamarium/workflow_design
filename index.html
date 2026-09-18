@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Design & Diagnosis - Study Guide & Certification Quiz</title>
+    <style>
+        :root {
+            --bg-color: #FAF8F5;
+            --card-bg: #FFFFFF;
+            --primary-orange: #E65100;
+            --secondary-orange: #FF9800;
+            --accent-gold: #D4AF37;
+            --light-gold: #FFF8E7;
+            --text-dark: #2C221E;
+            --text-muted: #665C54;
+            --border-color: #E2D7C7;
+            --shadow: 0 4px 15px rgba(230, 81, 0, 0.08);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2C221E 0%, #42322B 100%);
+            color: #FFF8E7;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-gold);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.4rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            margin: 0;
+            color: #E2D7C7;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius) var(--radius) 0 0;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-orange);
+            background-color: var(--light-gold);
+            border-bottom: 3px solid var(--primary-orange);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Study Material Grid */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .concept-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(230, 81, 0, 0.15);
+            border-color: var(--secondary-orange);
+        }
+
+        .concept-card h3 {
+            margin-top: 0;
+            color: var(--primary-orange);
+            font-size: 1.25rem;
+            border-bottom: 2px solid var(--light-gold);
+            padding-bottom: 8px;
+        }
+
+        .concept-card p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .btn-popup {
+            align-self: flex-start;
+            background: var(--light-gold);
+            color: var(--primary-orange);
+            border: 1px solid var(--accent-gold);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-popup:hover {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        /* Diagrams and Tables */
+        .section-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-block h2 {
+            color: var(--primary-orange);
+            margin-top: 0;
+            border-left: 5px solid var(--accent-gold);
+            padding-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--light-gold);
+            color: var(--primary-orange);
+        }
+
+        table tr:nth-child(even) {
+            background-color: #FAF6F0;
+        }
+
+        .ascii-diagram {
+            background: #2C221E;
+            color: #FFF8E7;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.4;
+            border-left: 4px solid var(--secondary-orange);
+            margin: 1rem 0;
+        }
+
+        /* Quiz Styling */
+        .quiz-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card h4 {
+            margin-top: 0;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: var(--light-gold);
+        }
+
+        .quiz-option input {
+            margin-right: 12px;
+            accent-color: var(--primary-orange);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto;
+            box-shadow: 0 4px 15px rgba(230, 81, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(230, 81, 0, 0.4);
+        }
+
+        /* Results & Score Card */
+        #results-container {
+            display: none;
+            background: var(--card-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin: 1rem 0;
+        }
+
+        /* Shining Glitching Star Animation */
+        .glitch-star-wrapper {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .glitch-star {
+            font-size: 80px;
+            color: var(--accent-gold);
+            display: inline-block;
+            position: relative;
+            animation: pulse 1.5s infinite alternate;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(255, 152, 0, 0.6);
+        }
+
+        .glitch-star::before, .glitch-star::after {
+            content: "★";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        .glitch-star::before {
+            left: -3px;
+            text-shadow: -2px 0 #FF9800;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-star::after {
+            left: 3px;
+            text-shadow: -2px 0 #E65100;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 40px, 0); }
+            20% { clip: rect(60px, 9999px, 80px, 0); }
+            40% { clip: rect(10px, 9999px, 30px, 0); }
+            60% { clip: rect(50px, 9999px, 70px, 0); }
+            80% { clip: rect(30px, 9999px, 50px, 0); }
+            100% { clip: rect(80px, 9999px, 100px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(15px, 9999px, 35px, 0); }
+            25% { clip: rect(55px, 9999px, 75px, 0); }
+            50% { clip: rect(5px, 9999px, 25px, 0); }
+            75% { clip: rect(45px, 9999px, 65px, 0); }
+            100% { clip: rect(75px, 9999px, 95px, 0); }
+        }
+
+        .answer-key-item {
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+        }
+
+        .answer-key-item strong {
+            color: var(--primary-orange);
+        }
+
+        .explanation {
+            background-color: var(--light-gold);
+            padding: 8px 12px;
+            border-left: 3px solid var(--accent-gold);
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 34, 30, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-top: 5px solid var(--primary-orange);
+            border-radius: var(--radius);
+            max-width: 650px;
+            width: 90%;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-orange);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Workflow Design & Diagnosis</h1>
+    <p>Core Technical Concepts, Visual Architectures & Advanced Certification Exam</p>
+</header>
+
+<div class="container">
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('study')">📚 Technical Study Material</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">📝 Advanced Quiz (30 Qs)</button>
+    </div>
+
+    <!-- STUDY MATERIAL TAB -->
+    <div id="tab-study" class="tab-content active">
+        
+        <!-- CORE CONCEPTS GRID -->
+        <h2>Core Concepts & Frameworks</h2>
+        <div class="concept-grid">
+            
+            <div class="concept-card">
+                <div>
+                    <h3>1. Unit of Value = Step</h3>
+                    <p>Habit vs. Team Workflow: Personal habits exist in heads and vary by mood. Team workflows are repeatable processes with fixed step owners.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c1')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>2. Task Definition & RFP Extraction</h3>
+                    <p>Turns vague operational requests into 5 settled answers: What, For Whom, How Often, Data Source, and Format.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c2')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>3. Computed vs. Written</h3>
+                    <p>If a figure matters, compute it via Code Execution. Never write it in prose because a generated estimate looks identical to a calculated truth.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c3')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>4. The Window Test</h3>
+                    <p>Determines step eligibility: Can everything this step needs be supplied inside the model's context window? Unsupplied context stays human.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c4')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>5. The Three Delegation Criteria</h3>
+                    <p>Reversibility, Stakes, and Accountability dictate step ownership. Past LLM performance is never a delegation criterion.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c5')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>6. Three Mapping Errors</h3>
+                    <p>Over-delegation (Halo delegation), Unstaffed Gates (silent decay), and Mapping the Tool instead of the Work.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c6')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>7. Diagnostic Sequence</h3>
+                    <p>Cheapest-first troubleshooting: Under-specification → Context Overload → Wrong Feature/Model → Stale Config → Expectation Mismatch.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c7')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>8. Three Configuration Homes</h3>
+                    <p>Promote permanent fixes to their exact homes: Rules → Standing Instructions, References → Knowledge Base, Procedures → Skills.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c8')">Deep Dive & Details</button>
+            </div>
+
+            <div class="concept-card">
+                <div>
+                    <h3>9. Incident Response & Stakeholders</h3>
+                    <p>Stop, Scope, Tell, Change Map. Always explain workflows by stating: What tool does → Human Gate → What it Refuses.</p>
+                </div>
+                <button class="btn-popup" onclick="openModal('c9')">Deep Dive & Details</button>
+            </div>
+
+        </div>
+
+        <!-- EXTRACTED DIAGRAMS & FIGURES SECTION -->
+        <div class="section-block">
+            <h2>Workflow Diagrams & Visual Architectures</h2>
+            
+            <h3>Figure 1: Habit vs. Repeatable Team Workflow</h3>
+            <div class="ascii-diagram">
+[I Use AI (Personal Habit)]             [Our Workflow Uses AI (Repeatable Process)]
+----------------------------             -------------------------------------------
+* Scattered, unlabeled blocks            1. Extract Clauses      ---> Owner: AI (Skill)
+* Varies by mood & user                  2. Flag Playbook Drift  ---> Owner: AI (Skill)
+* Disappears on leave                    3. Draft Redline        ---> Owner: Collaborative
+* Judged post-hoc by feeling             4. Approve Changes      ---> Owner: Human (Reviewer)
+                                         5. Sign & Send          ---> Owner: Human (Signer)
+            </div>
+
+            <h3>Figure 2: The Window Test Framework</h3>
+            <div class="ascii-diagram">
++-------------------------------------------------------------------------+
+|                         MODEL CONTEXT WINDOW                            |
+|  [Prompt Instructions] [Uploaded Contract PDF] [Playbook Rules]         |
++-------------------------------------------------------------------------+
+                                    |
+                                    v
+            [Decision Point: Can all inputs be supplied?]
+               /                                       \
+             YES                                        NO
+             /                                           \
+ [Eligible for Delegation Criteria Check]   [Human-Retained Step]
+                                            (e.g., Unannounced Hiring Freeze,
+                                             Client Risk Tolerance)
+            </div>
+
+            <h3>Figure 3: Diagnostic Sequence Ladder (Cheapest-First)</h3>
+            <div class="ascii-diagram">
+[Rung 1: Under-specification]   <-- (Re-read prompt; check 5 core slots) [Cheapest]
+       |
+[Rung 2: Context Overload]       <-- (Check session length; restart or summarize)
+       |
+[Rung 3: Wrong Feature/Model]    <-- (Check if math is in prose; switch to Code Exec / Tier)
+       |
+[Rung 4: Stale Configuration]   <-- (Audit dates of Skills, Knowledge, Standing Instructions)
+       |
+[Rung 5: Expectation Mismatch]   <-- (Reshape request; stop asking for exact future numbers) [Most Expensive]
+            </div>
+        </div>
+
+        <!-- TABLES SECTION -->
+        <div class="section-block">
+            <h2>Extracted System Tables & Reference Guides</h2>
+
+            <h3>Table 1: Three Layers of Workflow Implementation</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Workflow Need</th>
+                        <th>Implementation Home</th>
+                        <th>Technical Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Repeatable step-by-step procedure</td>
+                        <td><strong>Skill</strong></td>
+                        <td>Runs identically across accounts and projects without manual reprompting.</td>
+                    </tr>
+                    <tr>
+                        <td>Static reference files & documentation</td>
+                        <td><strong>Knowledge Base</strong></td>
+                        <td>Provides persistent background context to all runs in a Project.</td>
+                    </tr>
+                    <tr>
+                        <td>Calculations, data metrics, growth trends</td>
+                        <td><strong>Code Execution</strong></td>
+                        <td>Ensures numbers are deterministically computed rather than heuristically generated.</td>
+                    </tr>
+                    <tr>
+                        <td>Global constraints & rules</td>
+                        <td><strong>Standing Instruction</strong></td>
+                        <td>Applies continuously without relying on user memory during prompt creation.</td>
+                    </tr>
+                    <tr>
+                        <td>High-stakes or irreversible decisions</td>
+                        <td><strong>Named Review Gate</strong></td>
+                        <td>Ensures clear human accountability before external action is taken.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Table 2: Comparative Worked Maps (Contract Review vs. Onboarding)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Workflow Step</th>
+                        <th>Owner</th>
+                        <th>Deciding Criterion</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Extract Contract Clauses / HR Details</td>
+                        <td>AI</td>
+                        <td>Reversible, Low Stakes</td>
+                        <td>Skill / Code Execution</td>
+                    </tr>
+                    <tr>
+                        <td>Flag Playbook Departures / Offer Draft</td>
+                        <td>AI</td>
+                        <td>Reversible, checked at redline/approval gate</td>
+                        <td>Skill</td>
+                    </tr>
+                    <tr>
+                        <td>Draft Redline / Personalize Welcome Note</td>
+                        <td>Collaborative</td>
+                        <td>High Stakes / Manager voice unsuppliable</td>
+                        <td>Skill + Human Reviewer Gate</td>
+                    </tr>
+                    <tr>
+                        <td>Compute Penalty Exposure / Confirm Comp</td>
+                        <td>AI / Human</td>
+                        <td>Reversible IF followed by gate / Decision Step</td>
+                        <td>Code Execution / Named Reviewer</td>
+                    </tr>
+                    <tr>
+                        <td>Approve Changes / Sign & Send</td>
+                        <td>Human</td>
+                        <td>Irreversible, Externally Binding, Accountability</td>
+                        <td>Named Signer / Executive</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Table 3: Diagnostic Cause Matrix</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symptom Timing</th>
+                        <th>Primary Cause</th>
+                        <th>1-Minute Confirmation Check</th>
+                        <th>Remediation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wrong from 1st response</td>
+                        <td>Under-specification</td>
+                        <td>Re-read prompt against 5 required slots. Is info missing?</td>
+                        <td>Add missing slot details.</td>
+                    </tr>
+                    <tr>
+                        <td>Degrades over long chat</td>
+                        <td>Context Overload</td>
+                        <td>Restate instruction in a fresh session. Does it hold?</td>
+                        <td>Restart or summarize session.</td>
+                    </tr>
+                    <tr>
+                        <td>Repeatable error type</td>
+                        <td>Wrong Feature / Tier</td>
+                        <td>Run step via Code Execution or higher capability tier.</td>
+                        <td>Switch feature or upgrade tier.</td>
+                    </tr>
+                    <tr>
+                        <td>"Used to work, now off"</td>
+                        <td>Stale Configuration</td>
+                        <td>Check last update date of Knowledge Base or Skill files.</td>
+                        <td>Audit & refresh configuration.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ONE PAGE DELEGATION MAP TEMPLATE -->
+        <div class="section-block">
+            <h2>The Standard Delegation Map Template</h2>
+            <div class="ascii-diagram">
+DELEGATION MAP: [Workflow Name]
+Owner: [One Named Person]          Last Reviewed: [Date]        Next Review: [Date]
+
+ELIGIBILITY:
+- Data Gate: [May data enter tool? Confirmed by whom/when]
+- Input Gate: [Can all inputs be supplied in context?]
+
+STEPS:
+#  Step Description       Owner          Deciding Criterion            Carried By
+1  Extract Data          AI             Reversible, Low Stakes        Skill
+2  Calculate Exposure    AI             Reversible, Checked at Step 3 Code Execution
+3  Draft Policy Summary  Collaborative  High Stakes, Human Judges     Skill + Gate
+4  Approve Final Term    Human          Accountability / Decision     Named Reviewer
+5  Execute Transaction   Human          Irreversible                  Named Signer
+
+GATES:
+- Step 3: Reviewed by [Name] at [Moment], checking [Specific Criteria].
+- Step 4: Approved by [Name] before [Next Action].
+
+INCIDENT RESPONSE (IF IT GOES WRONG):
+- Stopped By: [Name/Role - Can act without prior signoff]
+- Scope Check: [Procedure to identify all affected outputs since last clean run]
+- Disclosure: [Who is notified within what timeframe]
+- Map Amendment: [Recorded with date & updated rules]
+            </div>
+        </div>
+
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div id="tab-quiz" class="tab-content">
+        <h2>Advanced Technical Diagnostics & Solution Architecture Exam</h2>
+        <p>Complete all 30 questions below. You must score <strong>24/30 (80%)</strong> or higher to earn the Gold Glitching Star of Certification Excellence.</p>
+        
+        <form id="quiz-form">
+            <div id="quiz-questions-container"></div>
+            <button type="button" class="btn-submit" onclick="gradeQuiz()">Submit Exam & Calculate Score</button>
+        </form>
+
+        <div id="results-container">
+            <h3>Exam Performance Summary</h3>
+            <div id="score-text" class="score-display">0 / 30</div>
+            
+            <div id="glitch-star-container" class="glitch-star-wrapper">
+                <div class="glitch-star">★</div>
+                <p style="color: var(--accent-gold); font-weight: bold; margin-top: 10px;">MASTERY CERTIFIED! EXCELLENT WORK!</p>
+            </div>
+
+            <div id="answer-key-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL POPUP FOR DEEP DIVE CONCEPTS -->
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-modal" onclick="closeModal(force=true)">&times;</span>
+        <h2 id="modal-title" style="color: var(--primary-orange); margin-top: 0;"></h2>
+        <div id="modal-body" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-dark);"></div>
+    </div>
+</div>
+
+<script>
+    // --- POPUP MODAL DATA ---
+    const modalData = {
+        c1: {
+            title: "Concept 1: The Unit of Value is the Step",
+            body: `<p><strong>Core Technical Principle:</strong> "I use AI" represents a transient personal habit. "Our workflow uses AI" represents an institutionalized, repeatable team process.</p>
+                   <p>A <strong>step</strong> is defined as a single named piece of a workflow possessing exactly <em>one owner</em>. Personal habits live in individual minds, fluctuate by mood, and break when an employee is on leave. Team workflows run identically regardless of who is at the keyboard.</p>
+                   <p><strong>Key Takeaway:</strong> Never judge workflow readiness based on whether you liked a session's output post-hoc. Decide about the step in advance using objective criteria that remain stable regardless of output quality.</p>`
+        },
+        c2: {
+            title: "Concept 2: Task Definition & Requirement Extraction",
+            body: `<p><strong>Task Definition Framework:</strong> Messy inputs (emails, long briefs) must be translated into 5 settled answers before execution:</p>
+                   <ul>
+                       <li><strong>What:</strong> What exact artifact is produced?</li>
+                       <li><strong>For Whom:</strong> Who is the precise target audience?</li>
+                       <li><strong>How Often:</strong> What is the execution frequency?</li>
+                       <li><strong>From What Data:</strong> What are the explicit source datasets?</li>
+                       <li><strong>Format:</strong> What exact delivery format is required?</li>
+                   </ul>
+                   <p><strong>Requirement Attack:</strong> Extraction identifies what was written; attacking requirements finds what was meant. Always run a second pass asking: <em>"Which lines are ambiguous? Which could two engineers read differently?"</em> Catching ambiguity during requirement design costs 1 question; catching it after building costs the entire project.</p>`
+        },
+        c3: {
+            title: "Concept 3: Computed vs. Written Numbers",
+            body: `<p><strong>Rule of Consequence:</strong> If a result matters, compute it. Never write it.</p>
+                   <p>Large Language Models are probabilistic text generators. A written figure generated in prose looks visually identical to a mathematically calculated number on a web page, but carries zero computational validity.</p>
+                   <p><strong>Implementation:</strong> Require the assistant to use <strong>Code Execution</strong> (writing and executing Python/JS in a sandbox) to derive numerical values, growth trends, or totals before presenting recommendations. This separates deterministic computation from heuristic reasoning.</p>`
+        },
+        c4: {
+            title: "Concept 4: The Window Test & Synthesis vs. Judgment",
+            body: `<p><strong>The Window Test:</strong> <em>Can everything this step needs be supplied inside the model's context window?</em></p>
+                   <p>If essential decision inputs (e.g., an unannounced hiring freeze, internal political risk appetite, or real-time offline management decisions) sit outside the context window, the step CANNOT be delegated to AI.</p>
+                   <p><strong>Synthesis vs. Judgment:</strong>
+                   <ul>
+                       <li><strong>Synthesis:</strong> Gathering considerations and shaping options from supplied context. AI excels at this.</li>
+                       <li><strong>Judgment:</strong> Steps relying on unsuppliable information. These MUST remain human-retained. AI will not refuse unsupplied context; it will fill gaps with plausible-sounding defaults.</li>
+                   </ul></p>`
+        },
+        c5: {
+            title: "Concept 5: Three Criteria for Step Delegation",
+            body: `<p>Step ownership is governed strictly by three criteria (not past model accuracy):</p>
+                   <ol>
+                       <li><strong>Reversibility:</strong> Can an error at this step be undone? (e.g., A redline draft can be overwritten; a sent client email cannot).</li>
+                       <li><strong>Stakes:</strong> What does an error cost in the worst-case scenario?</li>
+                       <li><strong>Accountability:</strong> Who is legally/operationally answerable for the outcome? Accountability can NEVER be transferred to a machine.</li>
+                   </ol>
+                   <p><strong>Step Classifications:</strong>
+                   <ul>
+                       <li><strong>AI-Appropriate:</strong> Reversible, low-stakes, judged at a subsequent gate.</li>
+                       <li><strong>Collaborative:</strong> AI produces draft; named human judges and approves.</li>
+                       <li><strong>Human-Retained:</strong> Irreversible steps, decision steps, or unsuppliable context.</li>
+                   </ul></p>`
+        },
+        c6: {
+            title: "Concept 6: The Three Workflow Mapping Errors",
+            body: `<p>Workflow maps decay through three classic structural flaws:</p>
+                   <ul>
+                       <li><strong>Over-Delegation & Halo Delegation:</strong> Transferring a step to AI because a previous, distinct step performed well. (Drafting quality is evidence about the draft, NOT evidence about the approval decision).</li>
+                       <li><strong>The Unstaffed Gate:</strong> A collaborative review step where human checking devolves into rubber-stamping or rubber-clicking due to high volume or trust drift.</li>
+                       <li><strong>Mapping the Tool Instead of the Work:</strong> Bending real operational business processes around a favorite AI feature or Skill rather than core business needs.</li>
+                   </ul>`
+        },
+        c7: {
+            title: "Concept 7: Diagnostic Sequence (Cheapest-First)",
+            body: `<p>When output degrades, troubleshoot in strict order from cheapest to most expensive:</p>
+                   <ol>
+                       <li><strong>Under-specification:</strong> Re-read prompt against its 5 core parts (Role, Context, Task, Constraints, Format).</li>
+                       <li><strong>Context Overload:</strong> Is the conversation history too long? Restart in a clean session or summarize.</li>
+                       <li><strong>Wrong Feature/Model:</strong> Are calculations requested in prose? Is a complex task running on a fast tier?</li>
+                       <li><strong>Stale Configuration:</strong> Has a Knowledge file, Skill, or Standing Instruction drifted out of date?</li>
+                       <li><strong>Expectation Mismatch:</strong> Is the user asking for something impossible (e.g., predicting an exact future stock price)? Reshape the task.</li>
+                   </ol>`
+        },
+        c8: {
+            title: "Concept 8: Three Configuration Homes & Promotion",
+            body: `<p><strong>Promotion:</strong> Moving a manual correction out of a transient chat and into persistent system configuration.</p>
+                   <p>Choose the correct home based on the fix type:</p>
+                   <ul>
+                       <li><strong>Rules -> Standing Instructions:</strong> Persistent global constraints that always apply (e.g., "Always exclude canceled orders").</li>
+                       <li><strong>References -> Knowledge Base:</strong> Static background context, style guides, RFP documentation, or policy rules.</li>
+                       <li><strong>Procedures -> Skills:</strong> Step-by-step sequential workflows that must execute in precise order every run.</li>
+                   </ul>`
+        },
+        c9: {
+            title: "Concept 9: Incident Response & Stakeholder Framing",
+            body: `<p><strong>First-Hour Incident Protocol:</strong>
+                   <ol>
+                       <li><strong>Stop:</strong> Execute immediate workflow kill-switch (must not require contacting missing creators).</li>
+                       <li><strong>Scope:</strong> Determine total historical outputs affected since configuration drifted.</li>
+                       <li><strong>Tell:</strong> Notify risk, compliance, and clients based on pre-designed protocols.</li>
+                       <li><strong>Change Map:</strong> Update delegation map and configurations with dated amendments.</li>
+                   </ol>
+                   <p><strong>Stakeholder Explanation Rule:</strong> Always introduce AI workflows using 3 components: <em>1) What the tool does, 2) Where the explicit human gate sits, and 3) What cases the tool explicitly refuses.</em></p>`
+        }
+    };
+
+    function openModal(key) {
+        if(modalData[key]) {
+            document.getElementById('modal-title').innerText = modalData[key].title;
+            document.getElementById('modal-body').innerHTML = modalData[key].body;
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+    }
+
+    function closeModal(e, force = false) {
+        if (force || e.target.id === 'modal-overlay') {
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+    }
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        if (tab === 'study') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-study').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-quiz').classList.add('active');
+        }
+    }
+
+    // --- QUIZ QUESTIONS DATA (30 ADVANCED TECHNICAL QUESTIONS) ---
+    const quizQuestions = [
+        {
+            q: "1. Two legal teams use the same AI assistant for contract review. Team A mapped steps, kept human approval on redlines, and reduced review time by 50%. Team B allowed AI to approve low-risk clauses unsupervised, resulting in an unreviewed liability. What primary distinction explains this difference?",
+            options: [
+                "Team A used a higher LLM parameter tier than Team B.",
+                "Team A correctly identified which specific workflow steps were safe to hand over based on criteria rather than draft quality.",
+                "Team B failed to supply enough zero-shot prompt examples.",
+                "Team A automated the final signing step using a web connector."
+            ],
+            answer: 1,
+            expl: "The course establishes that the output is not the verdict. Same model and same task produce disasters if steps are handed over without analyzing reversibility, stakes, and accountability."
+        },
+        {
+            q: "2. What is the fundamental difference between 'I use AI' and 'Our workflow uses AI'?",
+            options: [
+                "The former uses web chat, while the latter requires API integrations.",
+                "The former is a personal habit with varying post-hoc evaluation; the latter is a repeatable process with named step owners and pre-determined criteria.",
+                "The former is cheap, while the latter is always enterprise-grade.",
+                "There is no difference; both refer to individual productivity enhancements."
+            ],
+            answer: 1,
+            expl: "A step in a workflow has one named owner and a reason that can be stated in advance, whereas personal habits live in heads and disappear on leave."
+        },
+        {
+            q: "3. What are the 5 core settled answers required to turn a vague request into a valid Task Definition?",
+            options: [
+                "Role, Context, Task, Constraints, and Format.",
+                "What is produced, for whom, how often, from what data, and in what format.",
+                "Reversibility, Stakes, Accountability, Skill, and Knowledge.",
+                "Ideate, Prototype, Feedback, Refine, and Deploy."
+            ],
+            answer: 1,
+            expl: "A business request turned into a task definition requires settling: what is produced, for whom, how often, from what data, and in what format."
+        },
+        {
+            q: "4. An operational prompt yields a draft containing headcount projections. Why must numerical figures in planning artifacts be computed via Code Execution rather than generated in prose?",
+            options: [
+                "Prose generation takes twice as long to process.",
+                "Generative LLMs write figures that look visually identical to computed numbers, making uncalculated guesses undetectable on the page.",
+                "LLMs are physically incapable of outputting numbers over 1,000 without code.",
+                "Code execution automatically updates the knowledge base."
+            ],
+            answer: 1,
+            expl: "A written figure and a calculated figure look identical on the page. If a result matters, compute it via Code Execution so arithmetic is deterministic."
+        },
+        {
+            q: "5. An AI assistant generates a capacity plan recommending 3 hires based on ticket volume trends, but misses an internal hiring freeze announced in a meeting. Which test did this step fail?",
+            options: [
+                "The Reversibility Test.",
+                "The Window Test, because critical decision context sat outside the context window.",
+                "The Code Execution Protocol.",
+                "The Diagnostic Sequence."
+            ],
+            answer: 1,
+            expl: "The Window Test asks whether everything the step needs can be put in front of the model. Context from meetings outside the window cannot be supplied."
+        },
+        {
+            q: "6. What three criteria strictly dictate whether a workflow step can be delegated, human-retained, or collaborative?",
+            options: [
+                "Speed, Accuracy, and Cost.",
+                "Reversibility, Stakes, and Accountability.",
+                "Prompt Length, Model Tier, and Temperature.",
+                "Skill, Knowledge, and Standing Instructions."
+            ],
+            answer: 1,
+            expl: "Ownership rests strictly on Reversibility (can it be undone), Stakes (cost in the worst case), and Accountability (who answers for the outcome)."
+        },
+        {
+            q: "7. Why is past performance of an LLM on a specific step NOT a valid criterion for step ownership?",
+            options: [
+                "Past performance changes dynamically with temperature settings.",
+                "Drafting quality is evidence about the draft, not evidence about the risk or accountability of the decision.",
+                "LLM performance fluctuates based on internet traffic.",
+                "Past performance is only valid for Python execution tasks."
+            ],
+            answer: 1,
+            expl: "Halo delegation occurs when high performance on drafting leads teams to incorrectly assume the approval/decision step is also safe to delegate."
+        },
+        {
+            q: "8. In a contract review workflow, why is 'computing financial exposure of a penalty clause' classified as AI-appropriate even though it involves high-stakes financial risk?",
+            options: [
+                "Because math is always 100% accurate in LLMs.",
+                "Because the output is reversible and directly lands before a human at the subsequent approval gate.",
+                "Because penalty clauses are legally non-binding.",
+                "Because it uses a Skill rather than a prompt."
+            ],
+            answer: 1,
+            expl: "A step producing an input judged by a human at the next step is safe to hand over because accountability and verification sit at the judging step."
+        },
+        {
+            q: "9. A team lead notices that for 3 months AI draft responses have been flawless, so they remove human review on customer complaints. What mapping error is committed?",
+            options: [
+                "Mapping the tool instead of the work.",
+                "Over-delegation via Halo Delegation.",
+                "Under-specification.",
+                "Expectation Mismatch."
+            ],
+            answer: 1,
+            expl: "Halo delegation means handing a step to AI because a previous or related drafting step went well. Drafting quality is not decision safety."
+        },
+        {
+            q: "10. What is an 'Unstaffed Gate' in workflow execution?",
+            options: [
+                "A missing API endpoint between two cloud services.",
+                "A collaborative step where human review has silently devolved into a quick glance/click without real evaluation.",
+                "An automated script running without supervisor permission.",
+                "A prompt that lacks a system role."
+            ],
+            answer: 1,
+            expl: "An unstaffed gate occurs when human reviewers stop truly inspecting drafts due to time pressure or trust drift, effectively automating the step without updating the map."
+        },
+        {
+            q: "11. Why do control mechanisms like review gates, standing instructions, and delegation maps decay silently without raising alarms?",
+            options: [
+                "Because software APIs do not throw errors when human behavior changes.",
+                "Because decay happens through human practice or contextual shift, yielding valid-looking outputs without system crashes.",
+                "Because LLMs automatically patch broken workflow steps.",
+                "Because standing instructions expire after 30 days."
+            ],
+            answer: 1,
+            expl: "Decay produces no system error code. A unstaffed gate still results in clicks, and a stale knowledge file still produces formatted text."
+        },
+        {
+            q: "12. What specific mechanism is required to combat silent workflow decay, and who manages it?",
+            options: [
+                "An automated unit test suite managed by DevOps.",
+                "A Scheduled Read managed by a single named Map Owner on a fixed date.",
+                "Weekly prompt re-writing managed by the team.",
+                "Upgrading to a higher model tier every quarter."
+            ],
+            answer: 1,
+            expl: "Only a scheduled read on a fixed calendar date by a single named Map Owner catches unstaffed gates and stale configurations."
+        },
+        {
+            q: "13. During an iterative build loop (Ideate, Prototype, Feedback, Refine), a totals row in a dashboard artifact comes back formatted correctly but mathematically wrong. What type of problem is this?",
+            options: [
+                "A description problem solved by writing a better prompt.",
+                "A feature problem solved by moving calculation to Code Execution.",
+                "A model tier failure requiring an immediate upgrade.",
+                "An unstaffed gate error."
+            ],
+            answer: 1,
+            expl: "Wrong numbers in prose are feature problems, not description problems. Better prompts cannot force probabilistic text generators to do deterministic math reliably."
+        },
+        {
+            q: "14. What is the explicit 'Escalation Signal' indicating a tool has outgrown prompt-and-iterate and requires developer/architect engineering?",
+            options: [
+                "When the prompt exceeds 1,000 words.",
+                "When other people or departments depend on the tool as infrastructure for their work.",
+                "When the model throws a context window error.",
+                "When the build loop takes more than 3 cycles."
+            ],
+            answer: 1,
+            expl: "Dependency by others turns a personal tool into infrastructure, introducing requirements like uptime, access control, and maintenance that require engineering."
+        },
+        {
+            q: "15. When output disappoints, what is the FIRST question that must be asked to isolate the root cause?",
+            options: [
+                "Which LLM model tier are we using?",
+                "When did the symptom first appear?",
+                "Who is the map owner?",
+                "How much context window remains?"
+            ],
+            answer: 1,
+            expl: "Timing isolates the root cause immediately without guessing. Ask when the symptom appeared before changing prompts or models."
+        },
+        {
+            q: "16. An output is incorrect from the very first response in a brand new chat session. What is the primary hypothesis?",
+            options: [
+                "Context Overload.",
+                "Under-specification in the prompt.",
+                "Stale Configuration in the Skill.",
+                "Expectation Mismatch."
+            ],
+            answer: 1,
+            expl: "Errors on response #1 in a fresh chat rule out context overload and point directly to under-specification (missing information in the prompt)."
+        },
+        {
+            q: "17. A long session starts producing excellent results but begins ignoring formatting constraints around turn 15. What cause does this timing indicate?",
+            options: [
+                "Under-specification.",
+                "Context Overload (context window truncation/compression).",
+                "Stale Configuration.",
+                "Wrong Model Tier."
+            ],
+            answer: 1,
+            expl: "Degradation over a lengthy conversation indicates Context Overload as early instructions drop out of the active context window."
+        },
+        {
+            q: "18. What is the correct order of the Diagnostic Sequence?",
+            options: [
+                "Expectation Mismatch → Model Tier → Prompt → Context → Config.",
+                "Under-specification → Context Overload → Wrong Feature/Model → Stale Configuration → Expectation Mismatch.",
+                "Stale Config → Under-specification → Expectation Mismatch → Feature → Context.",
+                "Code Execution → Skill → Knowledge → Standing Instruction → Gate."
+            ],
+            answer: 1,
+            expl: "The sequence runs cheapest-first: check prompt slots, check chat length, check feature/tier, check config dates, and lastly question task fit."
+        },
+        {
+            q: "19. A user requests: 'Predict next quarter's exact revenue number.' The output is wildly off. After running the sequence, what diagnosis applies?",
+            options: [
+                "Under-specification.",
+                "Expectation Mismatch (asking LLM to predict an exact unknown future value).",
+                "Context Overload.",
+                "Stale Skill."
+            ],
+            answer: 1,
+            expl: "Expecting an LLM to predict exact point-value future metrics is an Expectation Mismatch. Reshape the task into range estimates or scenario drivers."
+        },
+        {
+            q: "20. How do you convert a vague reaction ('This draft is too generic') into an actionable instruction?",
+            options: [
+                "By typing 'Make it less generic' in the prompt.",
+                "By identifying what must be present for it to be right and naming the specific setup lever that controls it.",
+                "By switching to a higher parameter model.",
+                "By re-running the prompt three times."
+            ],
+            answer: 1,
+            expl: "An instruction names what to change and identifies the precise lever (prompt slot, instruction constraint, knowledge base file, or skill)."
+        },
+        {
+            q: "21. A discovered fix involves a 5-step sequential process that must execute in exact order every run. Where should this fix be promoted?",
+            options: [
+                "Standing Instructions.",
+                "Knowledge Base.",
+                "A configured Skill.",
+                "A chat memory tag."
+            ],
+            answer: 2,
+            expl: "Procedures (sequential steps in order) belong in Skills. Single rules belong in Standing Instructions, and reference data belongs in Knowledge."
+        },
+        {
+            q: "22. Why is relying on an AI assistant's automatic user memory insufficient for enterprise team workflows?",
+            options: [
+                "Memory uses too many tokens.",
+                "User memory is per-user, best-effort, and invisible to colleagues covering for you, whereas configuration is shared and auditable.",
+                "Memory resets every 24 hours.",
+                "Memory only works with code execution."
+            ],
+            answer: 1,
+            expl: "Personal memory is isolated to an individual account. Shared team configurations (Projects, Skills) ensure continuity across team members."
+        },
+        {
+            q: "23. What three operational signals indicate friction in a workflow that configuration can remove?",
+            options: [
+                "Speed, Latency, and Cost.",
+                "Repetition, Correction, and Variance.",
+                "Drafting, Reviewing, and Signing.",
+                "Ideate, Prototype, and Refine."
+            ],
+            answer: 1,
+            expl: "Friction signals: Repetition (typing same context), Correction (fixing same flaw repeatedly), and Variance (different people getting different results)."
+        },
+        {
+            q: "24. Why does workflow Variance show up at the reviewer rather than at the person doing the work?",
+            options: [
+                "Reviewers have access to analytics dashboards.",
+                "Individual workers only see their own consistent output; only the reviewer sees across multiple team members' inconsistent outputs.",
+                "Variance only occurs during approval gates.",
+                "Reviewers use different model tiers."
+            ],
+            answer: 1,
+            expl: "Each team member feels internally consistent. Discrepancies between styles/formats only collide when arriving at the central reviewer."
+        },
+        {
+            q: "25. Why must a workflow Baseline be measured BEFORE implementing any AI changes?",
+            options: [
+                "Because baseline tools are disabled after deployment.",
+                "Because post-hoc historical estimates of old manual workflows are unconsciously biased to flatter the new implementation.",
+                "Because baseline data is required to train the LLM.",
+                "Because baseline timing sets the model context window limit."
+            ],
+            answer: 1,
+            expl: "You cannot accurately rebuild a baseline afterwards because human memory flattens or exaggerates past effort to justify new tools."
+        },
+        {
+            q: "26. What is a 'Parallel Run' during workflow deployment?",
+            options: [
+                "Running two different LLM models in the same prompt.",
+                "Executing the old process and new AI workflow side-by-side for several cycles to compare baseline metrics and verify safety.",
+                "Running code execution and web search simultaneously.",
+                "Splitting a contract into two parallel documents."
+            ],
+            answer: 1,
+            expl: "A parallel run runs old and new processes simultaneously for 2-3 cycles to prove performance, build trust, and retain a working fallback."
+        },
+        {
+            q: "27. In the first hour after an AI workflow outputs a severe error externally, what are the two decisions that MUST have been made at design time?",
+            options: [
+                "Which prompt to rewrite and which model tier to buy.",
+                "How the workflow is stopped (kill-switch owner) and what changes in the delegation map.",
+                "Who to fire and how to issue a press release.",
+                "Which API key to delete and which server to reboot."
+            ],
+            answer: 1,
+            expl: "Design-time incident requirements: 1) Who can halt the workflow immediately without asking missing creators, and 4) What amendments are recorded on the map."
+        },
+        {
+            q: "28. Why is describing an AI workflow as 'Fully Automated' or 'AI handles contract review' dangerous to stakeholder trust?",
+            options: [
+                "It causes API rate-limiting.",
+                "It drops the explicit human review gate from the narrative, creating an undefendable expectation when a boundary failure occurs.",
+                "Stakeholders prefer complex technical jargon.",
+                "It violates software copyright terms."
+            ],
+            answer: 1,
+            expl: "Omitting human gates makes the system sound unsupervised. Stakeholders trust workflows more when human checkpoints are explicitly stated."
+        },
+        {
+            q: "29. What is the 3-part formula for accurately describing an AI workflow to executives or risk teams?",
+            options: [
+                "Model Name + Prompt Length + Token Cost.",
+                "State what the tool does → Name the explicit human gate → State what the tool explicitly refuses.",
+                "Baseline Time + Code Execution + Final Score.",
+                "Ideate + Prototype + Refine."
+            ],
+            answer: 1,
+            expl: "State what the tool does, name the human checkpoint, and list what it refuses. This proves boundaries were engineered intentionally."
+        },
+        {
+            q: "30. What is the single foundational sentence that summarizes the entire Workflow Design & Diagnosis course?",
+            options: [
+                "Always use the highest parameter LLM available for team tasks.",
+                "The output is not the verdict. Judge the step by what it costs and who answers for it, and judge a failure by when it started.",
+                "Prompt engineering solves all operational workflow errors.",
+                "Automate every step that has higher than 90% test accuracy."
+            ],
+            answer: 1,
+            expl: "The core thesis: The output is not the verdict. Judge steps by costs/accountability (not current draft quality) and diagnose failures by timing."
+        }
+    ];
+
+    // Render Quiz Questions
+    function renderQuiz() {
+        const container = document.getElementById('quiz-questions-container');
+        container.innerHTML = '';
+
+        quizQuestions.forEach((qObj, index) => {
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+            
+            let optionsHTML = '';
+            qObj.options.forEach((opt, oIndex) => {
+                optionsHTML += `
+                    <label class="quiz-option">
+                        <input type="radio" name="q${index}" value="${oIndex}">
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+
+            card.innerHTML = `
+                <h4>${qObj.q}</h4>
+                <div class="quiz-options">${optionsHTML}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Grade Quiz & Calculate Score
+    function gradeQuiz() {
+        let score = 0;
+        const total = quizQuestions.length;
+        const keyContainer = document.getElementById('answer-key-container');
+        keyContainer.innerHTML = '<h3>Detailed Answer Key & Technical Explanations</h3>';
+
+        quizQuestions.forEach((qObj, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const userAns = selected ? parseInt(selected.value) : -1;
+            const isCorrect = userAns === qObj.answer;
+
+            if (isCorrect) score++;
+
+            const keyItem = document.createElement('div');
+            keyItem.className = 'answer-key-item';
+            keyItem.innerHTML = `
+                <p><strong>Q${index + 1}:</strong> ${qObj.q}</p>
+                <p>Your Answer: <span style="color: ${isCorrect ? 'green' : 'red'}; font-weight: bold;">
+                    ${userAns !== -1 ? qObj.options[userAns] : 'Not Answered'}
+                </span> ${isCorrect ? '✅' : '❌'}</p>
+                ${!isCorrect ? `<p>Correct Answer: <span style="color: green; font-weight: bold;">${qObj.options[qObj.answer]}</span></p>` : ''}
+                <div class="explanation"><strong>Technical Elaboration:</strong> ${qObj.expl}</div>
+            `;
+            keyContainer.appendChild(keyItem);
+        });
+
+        // Display Results
+        document.getElementById('results-container').style.display = 'block';
+        document.getElementById('score-text').innerText = `${score} / ${total} (${Math.round((score/total)*100)}%)`;
+
+        // Glitching Star trigger at 24/30 (80%)
+        const starContainer = document.getElementById('glitch-star-container');
+        if (score >= 24) {
+            starContainer.style.display = 'block';
+        } else {
+            starContainer.style.display = 'none';
+        }
+
+        // Scroll to results
+        document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize Page
+    window.onload = function() {
+        renderQuiz();
+    };
+</script>
+
+</body>
+</html>
